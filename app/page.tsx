@@ -154,7 +154,6 @@ export default function BreadPage() {
                   type="number"
                   className="w-full py-4 px-4 text-2xl font-bold border-4 border-neo-black shadow-brutal bg-neo-cyan text-neo-black focus:outline-none focus:shadow-brutal-lg transition-shadow"
                   value={water.toFixed(0)}
-                  onChange={(e) => setWater(Number(e.target.value))}
                   readOnly
                 />
                 <span className="absolute bottom-4 right-4 text-neo-black text-sm font-bold uppercase">

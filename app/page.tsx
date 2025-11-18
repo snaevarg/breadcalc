@@ -180,65 +180,65 @@ export default function BreadPage() {
             </div>
 
             <div className="input-container">
-              <label className={`block text-lg font-semibold mb-3 ${designTheme === "baking" ? "text-crust" : "text-neo-black uppercase"}`}>
+              <label className={`block text-lg font-semibold mb-3 ${designTheme === "baking" ? "text-crust opacity-75" : "text-neo-black uppercase opacity-75"}`}>
                 {waterText}
               </label>
               <div className="relative w-full">
                 <input
                   type="number"
-                  className={`w-full py-4 px-4 text-2xl font-bold transition-all ${
+                  className={`w-full py-4 px-4 text-2xl font-bold transition-all cursor-not-allowed ${
                     designTheme === "baking"
-                      ? "border-2 border-wheat-dark rounded-xl shadow-soft bg-gradient-to-br from-blue-50 to-blue-100 text-crust-dark focus:outline-none focus:border-wheat focus:shadow-soft-lg"
-                      : "border-4 border-neo-black shadow-brutal bg-neo-cyan text-neo-black focus:outline-none focus:shadow-brutal-lg"
+                      ? "border-2 border-wheat-dark rounded-xl shadow-soft bg-gradient-to-br from-blue-50 to-blue-100 text-crust-dark opacity-60 focus:outline-none"
+                      : "border-4 border-neo-black shadow-brutal bg-neo-cyan text-neo-black opacity-60 focus:outline-none"
                   }`}
                   value={water.toFixed(0)}
                   readOnly
                 />
-                <span className={`absolute bottom-4 right-4 text-sm font-bold ${designTheme === "baking" ? "text-wheat-dark" : "text-neo-black uppercase"}`}>
+                <span className={`absolute bottom-4 right-4 text-sm font-bold ${designTheme === "baking" ? "text-wheat-dark opacity-60" : "text-neo-black uppercase opacity-60"}`}>
                   {gramsText}
                 </span>
               </div>
             </div>
 
             <div className="input-container">
-              <label className={`block text-lg font-semibold mb-3 ${designTheme === "baking" ? "text-crust" : "text-neo-black uppercase"}`}>
+              <label className={`block text-lg font-semibold mb-3 ${designTheme === "baking" ? "text-crust opacity-75" : "text-neo-black uppercase opacity-75"}`}>
                 {saltLabelText}
               </label>
               <div className="relative w-full">
                 <input
                   type="number"
-                  className={`w-full py-4 px-4 text-2xl font-bold transition-all ${
+                  className={`w-full py-4 px-4 text-2xl font-bold transition-all cursor-not-allowed ${
                     designTheme === "baking"
-                      ? "border-2 border-wheat-dark rounded-xl shadow-soft bg-gradient-to-br from-gray-50 to-gray-100 text-crust-dark focus:outline-none focus:border-wheat focus:shadow-soft-lg"
-                      : "border-4 border-neo-black shadow-brutal bg-neo-lime text-neo-black focus:outline-none focus:shadow-brutal-lg"
+                      ? "border-2 border-wheat-dark rounded-xl shadow-soft bg-gradient-to-br from-gray-50 to-gray-100 text-crust-dark opacity-60 focus:outline-none"
+                      : "border-4 border-neo-black shadow-brutal bg-neo-lime text-neo-black opacity-60 focus:outline-none"
                   }`}
                   value={salt.toFixed(0)}
                   onChange={(e) => setSalt(Number(e.target.value))}
                   readOnly
                 />
-                <span className={`absolute bottom-4 right-4 text-sm font-bold ${designTheme === "baking" ? "text-wheat-dark" : "text-neo-black uppercase"}`}>
+                <span className={`absolute bottom-4 right-4 text-sm font-bold ${designTheme === "baking" ? "text-wheat-dark opacity-60" : "text-neo-black uppercase opacity-60"}`}>
                   {gramsText}
                 </span>
               </div>
             </div>
 
             <div className="input-container">
-              <label className={`block text-lg font-semibold mb-3 ${designTheme === "baking" ? "text-crust" : "text-neo-black uppercase"}`}>
+              <label className={`block text-lg font-semibold mb-3 ${designTheme === "baking" ? "text-crust opacity-75" : "text-neo-black uppercase opacity-75"}`}>
                 {yeastType === "sourdough" ? sourdoughText : yeastLabelText}
               </label>
               <div className="relative w-full">
                 <input
                   type="number"
-                  className={`w-full py-4 px-4 text-2xl font-bold transition-all ${
+                  className={`w-full py-4 px-4 text-2xl font-bold transition-all cursor-not-allowed ${
                     designTheme === "baking"
-                      ? "border-2 border-wheat-dark rounded-xl shadow-soft bg-gradient-to-br from-amber-50 to-amber-100 text-crust-dark focus:outline-none focus:border-wheat focus:shadow-soft-lg"
-                      : "border-4 border-neo-black shadow-brutal bg-neo-orange text-neo-black focus:outline-none focus:shadow-brutal-lg"
+                      ? "border-2 border-wheat-dark rounded-xl shadow-soft bg-gradient-to-br from-amber-50 to-amber-100 text-crust-dark opacity-60 focus:outline-none"
+                      : "border-4 border-neo-black shadow-brutal bg-neo-orange text-neo-black opacity-60 focus:outline-none"
                   }`}
                   value={yeast.toFixed(0)}
                   onChange={(e) => setYeast(Number(e.target.value))}
                   readOnly
                 />
-                <span className={`absolute bottom-4 right-4 text-sm font-bold ${designTheme === "baking" ? "text-wheat-dark" : "text-neo-black uppercase"}`}>
+                <span className={`absolute bottom-4 right-4 text-sm font-bold ${designTheme === "baking" ? "text-wheat-dark opacity-60" : "text-neo-black uppercase opacity-60"}`}>
                   {gramsText}
                 </span>
               </div>
@@ -381,18 +381,6 @@ export default function BreadPage() {
             <button
               className={`transition-all ${
                 designTheme === "baking"
-                  ? "bg-white border-2 border-wheat-dark shadow-soft rounded-xl p-2 hover:shadow-soft-lg hover:scale-105"
-                  : "bg-white border-4 border-neo-black shadow-brutal p-2 hover:shadow-brutal-lg hover:translate-x-1 hover:translate-y-1"
-              }`}
-              onClick={toggleDarkMode}
-              title="Toggle dark mode"
-            >
-              {isMounted && (theme === "light" ? <span className="text-3xl">🌙</span> : <span className="text-3xl">☀️</span>)}
-            </button>
-
-            <button
-              className={`transition-all ${
-                designTheme === "baking"
                   ? "bg-white border-2 border-wheat-dark shadow-soft rounded-xl hover:shadow-soft-lg hover:scale-105"
                   : "bg-white border-4 border-neo-black shadow-brutal hover:shadow-brutal-lg hover:translate-x-1 hover:translate-y-1"
               }`}
@@ -409,7 +397,7 @@ export default function BreadPage() {
                   : "bg-white border-4 border-neo-black shadow-brutal p-2 px-4 hover:shadow-brutal-lg hover:translate-x-1 hover:translate-y-1"
               }`}
               onClick={toggleDesignTheme}
-              title="Toggle design theme"
+              title="Toggle Neo-brutalism"
             >
               <span className="text-2xl">{designTheme === "baking" ? "🎨" : "🍞"}</span>
             </button>

@@ -144,17 +144,28 @@ export default function BreadPage() {
             : "bg-white border-8 border-neo-black shadow-brutal-xl"
           } p-8 mb-8 transition-all duration-300
         `}>
-          <h1 className={`
-            ${designTheme === "baking"
-              ? "text-5xl font-serif font-bold mb-2 text-crust tracking-wide"
-              : "text-4xl font-bold mb-8 text-neo-black uppercase tracking-tight bg-neo-pink px-4 py-3 border-4 border-neo-black shadow-brutal inline-block"
-            }
-          `}>
-            {titleText}
-          </h1>
-          {designTheme === "baking" && (
-            <p className="text-wheat-dark text-sm mb-8 italic">Craft the perfect loaf with precision</p>
-          )}
+          <div className="flex justify-between items-start mb-8">
+            <h1 className={`
+              ${designTheme === "baking"
+                ? "text-5xl font-serif font-bold text-crust tracking-wide"
+                : "text-4xl font-bold text-neo-black uppercase tracking-tight bg-neo-pink px-4 py-3 border-4 border-neo-black shadow-brutal inline-block"
+              }
+            `}>
+              {titleText}
+            </h1>
+
+            <button
+              className={`transition-all ${
+                designTheme === "baking"
+                  ? "bg-white border-2 border-wheat-dark shadow-soft rounded-xl hover:shadow-soft-lg hover:scale-105"
+                  : "bg-white border-4 border-neo-black shadow-brutal hover:shadow-brutal-lg hover:translate-x-1 hover:translate-y-1"
+              }`}
+              onClick={handleLanguageSwitch}
+              title="Switch language"
+            >
+              <span className={`fi fis ${language === "english" ? "fi-is" : "fi-gb"} fiCircle`} />
+            </button>
+          </div>
 
           {/* Ingredients Section */}
           <div className="grid grid-cols-2 gap-6 mb-8">
@@ -376,30 +387,6 @@ export default function BreadPage() {
               onClick={handleReset}
             >
               {resetText}
-            </button>
-
-            <button
-              className={`transition-all ${
-                designTheme === "baking"
-                  ? "bg-white border-2 border-wheat-dark shadow-soft rounded-xl hover:shadow-soft-lg hover:scale-105"
-                  : "bg-white border-4 border-neo-black shadow-brutal hover:shadow-brutal-lg hover:translate-x-1 hover:translate-y-1"
-              }`}
-              onClick={handleLanguageSwitch}
-              title="Switch language"
-            >
-              <span className={`fi fis ${language === "english" ? "fi-is" : "fi-gb"} fiCircle`} />
-            </button>
-
-            <button
-              className={`transition-all ${
-                designTheme === "baking"
-                  ? "bg-white border-2 border-wheat-dark shadow-soft rounded-xl p-2 px-4 hover:shadow-soft-lg hover:scale-105"
-                  : "bg-white border-4 border-neo-black shadow-brutal p-2 px-4 hover:shadow-brutal-lg hover:translate-x-1 hover:translate-y-1"
-              }`}
-              onClick={toggleDesignTheme}
-              title="Toggle Neo-brutalism"
-            >
-              <span className="text-2xl">{designTheme === "baking" ? "🎨" : "🍞"}</span>
             </button>
           </div>
         </div>

@@ -29,8 +29,11 @@ export default function BreadPage() {
   // State to track component mounting.
   const [isMounted, setIsMounted] = useState(false);
 
-  // State for the theme.
-  const { theme, setTheme } = useTheme(); 
+  // State for the theme (light/dark).
+  const { theme, setTheme } = useTheme();
+
+  // State for the design theme (baking/neo-brutalist).
+  const [designTheme, setDesignTheme] = useState<"baking" | "neo">("baking"); 
 
   useEffect(() => {
     setTheme("light"); // Set light mode as the default theme
@@ -51,6 +54,15 @@ export default function BreadPage() {
       setTheme("light"); // Set light mode as the default theme
     }
   }, [isMounted, setTheme]);
+
+  // Apply design theme class to body
+  useEffect(() => {
+    if (designTheme === "neo") {
+      document.body.classList.add("neo-theme");
+    } else {
+      document.body.classList.remove("neo-theme");
+    }
+  }, [designTheme]);
 
   // Set the hydration percentage.
   useEffect(() => {
@@ -100,6 +112,11 @@ export default function BreadPage() {
     setLanguage(newLanguage);
   };
 
+  // Toggle design theme
+  const toggleDesignTheme = () => {
+    setDesignTheme(designTheme === "baking" ? "neo" : "baking");
+  };
+
   // Variables for all the text, to be able to flip between languages.
   const titleText = language === "english" ? "Bread Dough Calculator" : "Reiknivél Fyrir Brauðdeig"
   const gramsText = language === "english" ? "grams" : "grömm";
@@ -120,85 +137,149 @@ export default function BreadPage() {
 
   return (
     <ThemeProvider defaultTheme="light">
-      <div className="w-full max-w-lg">
-        <div className="min-w-max shadow-md rounded m-5 p-5">
-          <h1 className="block light:text-gray-700 text-md font-semibold mb-2">{titleText}</h1>
-          <div className="mb-4 input-container">
-            <label className="block light:text-gray-700 text-sm font-semibold mb-2">{flourText}</label>
-            <div className="relative w-28">
-              <input
-                type="number"
-                className="shadow appearance-none border rounded w-28 py-2 px-3 light:text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                value={flour.toFixed(0)}
-                onChange={(e) => setFlour(Number(e.target.value))}
-              />
-              <span className="absolute bottom-3 end-2 text-gray-500 text-xs">
-              {gramsText}
-              </span>
+      <div className="w-full max-w-3xl px-4 py-8">
+        <div className={`
+          ${designTheme === "baking"
+            ? "bg-white border-2 border-wheat-dark shadow-soft-xl rounded-2xl"
+            : "bg-white border-8 border-neo-black shadow-brutal-xl"
+          } p-8 mb-8 transition-all duration-300
+        `}>
+          <h1 className={`
+            ${designTheme === "baking"
+              ? "text-5xl font-serif font-bold mb-8 text-crust tracking-wide"
+              : "text-4xl font-bold mb-8 text-neo-black uppercase tracking-tight bg-neo-pink px-4 py-3 border-4 border-neo-black shadow-brutal inline-block"
+            }
+          `}>
+            {titleText}
+          </h1>
+
+          {/* Ingredients Section */}
+          <div className="grid grid-cols-2 gap-6 mb-8">
+            <div className="input-container">
+              <label className={`block text-lg font-semibold mb-3 ${designTheme === "baking" ? "text-crust" : "text-neo-black uppercase"}`}>
+                {flourText}
+              </label>
+              <div className="relative w-full">
+                <input
+                  type="number"
+                  className={`w-full py-4 px-4 text-2xl font-bold transition-all ${
+                    designTheme === "baking"
+                      ? "border-2 border-wheat-dark rounded-xl shadow-soft bg-dough text-crust-dark focus:outline-none focus:border-wheat focus:shadow-soft-lg"
+                      : "border-4 border-neo-black shadow-brutal bg-white text-neo-black focus:outline-none focus:shadow-brutal-lg"
+                  }`}
+                  value={flour.toFixed(0)}
+                  onChange={(e) => setFlour(Number(e.target.value))}
+                />
+                <span className={`absolute bottom-4 right-4 text-sm font-bold ${designTheme === "baking" ? "text-wheat-dark" : "text-neo-black uppercase"}`}>
+                  {gramsText}
+                </span>
+              </div>
+            </div>
+
+            <div className="input-container">
+              <label className={`block text-lg font-semibold mb-3 ${designTheme === "baking" ? "text-crust opacity-75" : "text-neo-black uppercase opacity-75"}`}>
+                {waterText}
+              </label>
+              <div className="relative w-full">
+                <input
+                  type="number"
+                  className={`w-full py-4 px-4 text-2xl font-bold transition-all cursor-not-allowed ${
+                    designTheme === "baking"
+                      ? "border-2 border-wheat-dark rounded-xl shadow-soft bg-gradient-to-br from-blue-50 to-blue-100 text-crust-dark opacity-60 focus:outline-none"
+                      : "border-4 border-neo-black shadow-brutal bg-neo-cyan text-neo-black opacity-60 focus:outline-none"
+                  }`}
+                  value={water.toFixed(0)}
+                  readOnly
+                />
+                <span className={`absolute bottom-4 right-4 text-sm font-bold ${designTheme === "baking" ? "text-wheat-dark opacity-60" : "text-neo-black uppercase opacity-60"}`}>
+                  {gramsText}
+                </span>
+              </div>
+            </div>
+
+            <div className="input-container">
+              <label className={`block text-lg font-semibold mb-3 ${designTheme === "baking" ? "text-crust opacity-75" : "text-neo-black uppercase opacity-75"}`}>
+                {saltLabelText}
+              </label>
+              <div className="relative w-full">
+                <input
+                  type="number"
+                  className={`w-full py-4 px-4 text-2xl font-bold transition-all cursor-not-allowed ${
+                    designTheme === "baking"
+                      ? "border-2 border-wheat-dark rounded-xl shadow-soft bg-gradient-to-br from-gray-50 to-gray-100 text-crust-dark opacity-60 focus:outline-none"
+                      : "border-4 border-neo-black shadow-brutal bg-neo-lime text-neo-black opacity-60 focus:outline-none"
+                  }`}
+                  value={salt.toFixed(0)}
+                  onChange={(e) => setSalt(Number(e.target.value))}
+                  readOnly
+                />
+                <span className={`absolute bottom-4 right-4 text-sm font-bold ${designTheme === "baking" ? "text-wheat-dark opacity-60" : "text-neo-black uppercase opacity-60"}`}>
+                  {gramsText}
+                </span>
+              </div>
+            </div>
+
+            <div className="input-container">
+              <label className={`block text-lg font-semibold mb-3 ${designTheme === "baking" ? "text-crust opacity-75" : "text-neo-black uppercase opacity-75"}`}>
+                {yeastType === "sourdough" ? sourdoughText : yeastLabelText}
+              </label>
+              <div className="relative w-full">
+                <input
+                  type="number"
+                  className={`w-full py-4 px-4 text-2xl font-bold transition-all cursor-not-allowed ${
+                    designTheme === "baking"
+                      ? "border-2 border-wheat-dark rounded-xl shadow-soft bg-gradient-to-br from-amber-50 to-amber-100 text-crust-dark opacity-60 focus:outline-none"
+                      : "border-4 border-neo-black shadow-brutal bg-neo-orange text-neo-black opacity-60 focus:outline-none"
+                  }`}
+                  value={yeast.toFixed(0)}
+                  onChange={(e) => setYeast(Number(e.target.value))}
+                  readOnly
+                />
+                <span className={`absolute bottom-4 right-4 text-sm font-bold ${designTheme === "baking" ? "text-wheat-dark opacity-60" : "text-neo-black uppercase opacity-60"}`}>
+                  {gramsText}
+                </span>
+              </div>
             </div>
           </div>
-          <div className="mb-4 input-container">
-            <label className="block light:text-gray-700 text-sm font-semibold mb-2">{waterText}</label>
-            <div className="relative w-28">
-              <input
-                type="number"
-                className="shadow appearance-none border rounded w-28 py-2 px-3 light:text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                value={water.toFixed(0)}
-                onChange={(e) => setWater(Number(e.target.value))}
-                readOnly
-              />
-              <span className="absolute bottom-3 end-2 text-gray-500 text-xs">
-              {gramsText}
-              </span>
-          </div>
-          </div>
-          <div className="mb-4 input-container">
-            <label className="block light:text-gray-700 text-sm font-semibold mb-2">{saltLabelText}</label>
-            <div className="relative w-28">
-              <input
-                type="number"
-                className="shadow appearance-none border rounded w-28 py-2 px-3 light:text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                value={salt.toFixed(0)}
-                onChange={(e) => setSalt(Number(e.target.value))}
-                readOnly
-              />
-              <span className="absolute bottom-3 end-2 text-gray-500 text-xs">
-              {gramsText}
-              </span>
-            </div>
-          </div>
-          <div className="mb-4 input-container">
-            <label className="block light:text-gray-700 text-sm font-semibold mb-2">
-              {yeastType === "sourdough" ? sourdoughText : yeastLabelText}
-            </label>
-            <div className="relative w-28">
-              <input
-                type="number"
-                className="shadow appearance-none border rounded w-28 py-2 px-3 light:text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                value={yeast.toFixed(0)}
-                onChange={(e) => setYeast(Number(e.target.value))}
-                readOnly
-              />
-              <span className="absolute bottom-3 end-2 text-gray-500 text-xs">
-              {gramsText}
-              </span>
-            </div>
-          </div>
-          <div className="mb-4">
-          <h1 className="block light:text-gray-700 text-md font-semibold mb-2">{optionsText}</h1>
-            <div className="mb-2">
-              <label className="block mb-1 light:text-gray-700">{hydrationLabelText}: {hydration}%</label>
+
+          {/* Options Section */}
+          <div className={`p-6 mb-6 transition-all ${
+            designTheme === "baking"
+              ? "bg-gradient-to-br from-wheat-light to-cream-dark border-2 border-wheat-dark shadow-soft-lg rounded-2xl"
+              : "bg-neo-purple border-4 border-neo-black shadow-brutal"
+          }`}>
+            <h2 className={`text-2xl font-bold mb-6 ${
+              designTheme === "baking" ? "text-crust font-serif" : "text-neo-black uppercase"
+            }`}>
+              {optionsText}
+            </h2>
+
+            <div className="mb-6">
+              <label className={`block mb-3 font-bold text-lg ${
+                designTheme === "baking" ? "text-crust-dark" : "text-neo-black uppercase"
+              }`}>
+                {hydrationLabelText}: <span className={designTheme === "baking"
+                  ? "bg-wheat text-crust-dark px-3 py-1 border-2 border-crust rounded-full text-base font-bold"
+                  : "bg-neo-yellow px-2 py-1 border-2 border-neo-black"}>{hydration}%</span>
+              </label>
               <input
                 type="range"
                 min={40}
                 max={110}
                 value={hydration}
                 onChange={(e) => setHydration(Number(e.target.value))}
-                className="w-full bg-gray-800"
+                className="w-full"
               />
             </div>
-            <div className="mb-2">
-              <label className="block mb-1 light:text-gray-700">{saltPercentageText}: {saltPercentage}%</label>
+
+            <div className="mb-6">
+              <label className={`block mb-3 font-bold text-lg ${
+                designTheme === "baking" ? "text-crust-dark" : "text-neo-black uppercase"
+              }`}>
+                {saltPercentageText}: <span className={designTheme === "baking"
+                  ? "bg-wheat text-crust-dark px-3 py-1 border-2 border-crust rounded-full text-base font-bold"
+                  : "bg-neo-yellow px-2 py-1 border-2 border-neo-black"}>{saltPercentage}%</span>
+              </label>
               <input
                 type="range"
                 min={1.5}
@@ -206,16 +287,22 @@ export default function BreadPage() {
                 step={0.1}
                 value={saltPercentage}
                 onChange={(e) => setSaltPercentage(Number(e.target.value))}
-                className="w-full bg-gray-800"
+                className="w-full"
               />
             </div>
-            <div className="mb-2">
-              <label className="block mb-1 light:text-gray-700">
+
+            <div className="mb-6">
+              <label className={`block mb-3 font-bold text-lg ${
+                designTheme === "baking" ? "text-crust-dark" : "text-neo-black uppercase"
+              }`}>
                 {yeastType === "dry"
-                  ? `${yeastPercentageText}: ${yeastPercentage}%`
+                  ? `${yeastPercentageText}: `
                   : yeastType === "fresh"
-                  ? `${yeastPercentageText}: ${yeastPercentage}%`
-                  : `${sourdoughPercentageText}: ${yeastPercentage}%`}
+                  ? `${yeastPercentageText}: `
+                  : `${sourdoughPercentageText}: `}
+                <span className={designTheme === "baking"
+                  ? "bg-wheat text-crust-dark px-3 py-1 border-2 border-crust rounded-full text-base font-bold"
+                  : "bg-neo-yellow px-2 py-1 border-2 border-neo-black"}>{yeastPercentage}%</span>
               </label>
               <input
                 type="range"
@@ -224,63 +311,81 @@ export default function BreadPage() {
                 step={yeastType === "dry" ? 0.1 : yeastType === "fresh" ? 0.1 : 1}
                 value={yeastPercentage}
                 onChange={(e) => setYeastPercentage(Number(e.target.value))}
-                className="w-full bg-gray-800"
+                className="w-full"
               />
             </div>
-            <div className="mb-2">
-              <label className="block mb-1 light:text-gray-700">{yeastTypeText}:</label>
-              <label className="block mb-1 light:text-gray-700">
-                <input
-                  type="radio"
-                  value="dry"
-                  checked={yeastType === "dry"}
-                  onChange={handleYeastTypeChange}
-                  name="yeastType"
-                />
-                &nbsp;{dryYeastText}
+
+            <div className="mb-6">
+              <label className={`block mb-3 font-bold text-lg ${
+                designTheme === "baking" ? "text-crust-dark" : "text-neo-black uppercase"
+              }`}>
+                {yeastTypeText}:
               </label>
-              <label className="block mb-1 light:text-gray-700">
-                <input
-                  type="radio"
-                  value="fresh"
-                  checked={yeastType === "fresh"}
-                  onChange={handleYeastTypeChange}
-                  name="yeastType"
-                />
-                &nbsp;{freshYeastText}
-              </label>
-              <label className="block mb-1 light:text-gray-700">
-                <input
-                  type="radio"
-                  value="sourdough"
-                  checked={yeastType === "sourdough"}
-                  onChange={handleYeastTypeChange}
-                  name="yeastType"
-                />
-                &nbsp;{sourdoughText}
-              </label>
+              <div className="space-y-2">
+                <label className={`flex items-center gap-3 font-semibold text-base cursor-pointer ${
+                  designTheme === "baking" ? "text-crust" : "text-neo-black font-bold"
+                }`}>
+                  <input
+                    type="radio"
+                    value="dry"
+                    checked={yeastType === "dry"}
+                    onChange={handleYeastTypeChange}
+                    name="yeastType"
+                  />
+                  <span>{dryYeastText}</span>
+                </label>
+                <label className={`flex items-center gap-3 font-semibold text-base cursor-pointer ${
+                  designTheme === "baking" ? "text-crust" : "text-neo-black font-bold"
+                }`}>
+                  <input
+                    type="radio"
+                    value="fresh"
+                    checked={yeastType === "fresh"}
+                    onChange={handleYeastTypeChange}
+                    name="yeastType"
+                  />
+                  <span>{freshYeastText}</span>
+                </label>
+                <label className={`flex items-center gap-3 font-semibold text-base cursor-pointer ${
+                  designTheme === "baking" ? "text-crust" : "text-neo-black font-bold"
+                }`}>
+                  <input
+                    type="radio"
+                    value="sourdough"
+                    checked={yeastType === "sourdough"}
+                    onChange={handleYeastTypeChange}
+                    name="yeastType"
+                  />
+                  <span>{sourdoughText}</span>
+                </label>
+              </div>
             </div>
-            <div className="relative w-full">
-              <button
-                className="bg-transparent light:text-gray-700 mt-2 py-2 px-4 border border-gray-400 rounded shadow"
-                onClick={handleReset}
-              >
-                {resetText}
-              </button>
-              <button
-              className="bg-transparent absolute bottom-0 end-16 rounded-full shadow"
-              onClick={toggleDarkMode}
+          </div>
+
+          {/* Button Section */}
+          <div className="flex justify-between items-center flex-wrap gap-4">
+            <button
+              className={`font-bold text-lg py-3 px-8 transition-all ${
+                designTheme === "baking"
+                  ? "bg-gradient-to-r from-wheat to-wheat-dark text-white border-2 border-crust shadow-soft-lg rounded-xl hover:shadow-warm hover:scale-105"
+                  : "bg-neo-pink text-neo-black uppercase border-4 border-neo-black shadow-brutal hover:shadow-brutal-lg hover:translate-x-1 hover:translate-y-1"
+              }`}
+              onClick={handleReset}
             >
-              {/* Conditionally render the initial content of the button */}
-              {isMounted && (theme === "light" ? <span className="text-3xl">🌙</span> : <span className="text-3xl">☀️</span>)}
+              {resetText}
             </button>
-              <button
-                className="bg-transparent absolute bottom-0 end-2 rounded-full shadow"
-                onClick={handleLanguageSwitch}
-              >
-                <span className={`fi fis ${language === "english" ? "fi-is" : "fi-gb"} fiCircle`} />
-              </button>
-            </div>
+
+            <button
+              className={`transition-all ${
+                designTheme === "baking"
+                  ? "bg-white border-2 border-wheat-dark shadow-soft rounded-xl hover:shadow-soft-lg hover:scale-105"
+                  : "bg-white border-4 border-neo-black shadow-brutal hover:shadow-brutal-lg hover:translate-x-1 hover:translate-y-1"
+              }`}
+              onClick={handleLanguageSwitch}
+              title="Switch language"
+            >
+              <span className={`fi fis ${language === "english" ? "fi-is" : "fi-gb"} fiCircle`} />
+            </button>
           </div>
         </div>
       </div>
